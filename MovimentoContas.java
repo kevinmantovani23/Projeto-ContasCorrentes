@@ -15,10 +15,11 @@ class MovimentoContas {
         this(0, 0, 0, 0);
     }
     
-    MovimentoContas(int conta, String cliente, double saldo, double limite, int tipo){
-        codContaC = conta;
-        nomeClientesC = cliente;
-        saldoContaC = saldo;
-        LimitecontaC = limite;
-        tipoContaC = tipo;
+    MovimentoContas(int contaM, double valorM, int tipoM, int status){
+        codContaM = contaM;
+        ValorMovimentoM = valorM;
+        TipoMovimentoM = tipoM;
+        statusM = status;
+        
+}
 }

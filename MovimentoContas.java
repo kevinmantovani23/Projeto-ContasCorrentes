@@ -22,4 +22,10 @@ class MovimentoContas {
         statusM = status;
         
 }
+
+    @Override
+    public String toString() {
+        return "MovimentoContas{" + "codContaM=" + codContaM + ", ValorMovimentoM=" + ValorMovimentoM + ", TipoMovimentoM=" + TipoMovimentoM + ", statusM=" + statusM + '}';
+    }
+    
 }

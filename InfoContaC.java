@@ -22,4 +22,12 @@ class InfoContaC {
         LimitecontaC = limite;
         tipoContaC = tipo;
     }
+
+    @Override
+    public String toString() {
+        return "InfoContaC{" + "codContaC=" + codContaC + ", nomeClientesC=" + nomeClientesC + ", saldoContaC=" + saldoContaC + ", LimitecontaC=" + LimitecontaC + ", tipoContaC=" + tipoContaC + '}';
+    }
+
+    
+    
 }

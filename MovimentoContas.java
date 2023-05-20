@@ -25,7 +25,7 @@ class MovimentoContas {
 
     @Override
     public String toString() {
-        return "MovimentoContas{" + "codContaM=" + codContaM + ", ValorMovimentoM=" + ValorMovimentoM + ", TipoMovimentoM=" + TipoMovimentoM + ", statusM=" + statusM + '}';
+        return "\nCódigo da conta: " + codContaM + "| Valor do movimento: " + ValorMovimentoM + "| Tipo de movimento: " + TipoMovimentoM + "| Status: " + statusM;
     }
     
 }

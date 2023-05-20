@@ -25,7 +25,7 @@ class InfoContaC {
 
     @Override
     public String toString() {
-        return "InfoContaC{" + "codContaC=" + codContaC + ", nomeClientesC=" + nomeClientesC + ", saldoContaC=" + saldoContaC + ", LimitecontaC=" + LimitecontaC + ", tipoContaC=" + tipoContaC + '}';
+        return "\nCódigo da conta: " + codContaC + "| Cliente: " + nomeClientesC + "| Saldo: " + saldoContaC + "| Limite: " + LimitecontaC + "| Tipo: " + tipoContaC;
     }
 
     

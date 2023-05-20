@@ -9,28 +9,64 @@ public class ContaCorrente {
     
     
     public static void main(String[] args) throws IOException {
-        int escolha = 0;
-        InfoContaC[] corrente = new InfoContaC[5];
-        InfoContaC[] conta_atualizada= new InfoContaC[5];
-        MovimentoContas[] movimento = new MovimentoContas[10];
+        int escolha=0, escolha_cadastro, i;
+        InfoContaC[] corrente = new InfoContaC[2];
+        InfoContaC[] conta_atualizada= new InfoContaC[corrente.length];
+        MovimentoContas[] movimento = new MovimentoContas[2];
         
-            escolha = Integer.parseInt(JOptionPane.showInputDialog("1 - Cadastra Contas Correntes.\n" +
-                "2 - Cadastrar movimento.\n" +
-                "3 - Gera Contas Atualizadas.\n" +
-                "4 - Consulta cadastros.\n" +
-                "9 - FIM "));
+        while(true){
+            if (escolha==9){
+                break;
+            }
+            escolha = Integer.parseInt(JOptionPane.showInputDialog("......................................................\n" +
+                                                                                                          ".                MENU PRINCIPAL           .\n" +
+                                                                                                          "......................................................\n" +
+                                                                                                          ". 1 - Cadastra Contas Correntes    . \n" +
+                                                                                                          ". 2 - Cadastra movimento              .\n" +
+                                                                                                          ". 3 - Gera Contas Atualizadas       .\n" +
+                                                                                                          ". 4 - Consulta cadastros                .\n" +
+                                                                                                          ". 9 - FIM                                           .\n" +
+                                                                                                          "...................................................."));
                switch (escolha){
                    case 1:
                         cadastrar(corrente);
-                   
+                        break;
+                        
                    case 2:
                         cadastrar_movimento(movimento);
-                   
+                        break;
+                        
                    case 3:
                        herdar(corrente, conta_atualizada);
-                       atualizar_conta(corrente, movimento);
-                       
+                       atualizar_conta(corrente, movimento, conta_atualizada);
+                       gravar(corrente, movimento, conta_atualizada);
+                       break;
+                   case 4:
+                       escolha_cadastro = Integer.parseInt(JOptionPane.showInputDialog("............................................\n" +
+                                                                                                                                  ".    Consulta Cadastros         .\n" +
+                                                                                                                                  "...........................................\n" +
+                                                                                                                                  ". 1 - Contas Correntes         .\n" +
+                                                                                                                                  ". 2 - Movimento                   .\n" +
+                                                                                                                                  ". 3 - Atualizado                    .\n" +
+                                                                                                                                  ". 9 - FIM                                .\n" +
+                                                                                                                                  ".........................................."));
+                       switch(escolha_cadastro){
+                           case 1:
+                               for(i=0; i < corrente.length; i++){
+                                   System.out.print(corrente[i]);
+                               }break;
+                           case 2:
+                               for(i=0; i < movimento.length; i++){
+                                   System.out.print(movimento[i]);
+                               }break;
+                           case 3:
+                               for(i=0; i < conta_atualizada.length; i++){
+                                   System.out.print(conta_atualizada[i]);
+                               }break;
+                       }
+                       break;
                 }
+        }
         }
         
     
@@ -71,16 +107,54 @@ public class ContaCorrente {
             for(x=0; x < movimento.length; x++){
                 if ((conta_atualizada[i].codContaC == movimento[x].codContaM) && (movimento[x].statusM == 1)){
                     conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
-                }else if ((conta_atualizada[i].codContaC == movimento[x].codContaM) && (movimento[x].statusM == 2) && (conta_atualizada[i].codContaC < movimento[x].ValorMovimentoM) ){
+                }else if ((conta_atualizada[i].codContaC == movimento[x].codContaM) && (movimento[x].statusM == 2) && (conta_atualizada[i].saldoContaC < movimento[x].ValorMovimentoM) ){
                     caso = conta_atualizada[i].tipoContaC;
                     switch (caso){
-                        
-                    }
-            }
-                
+                        case 1:
+                            conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                            break;
+                        case 2:
+                           if ((-conta_atualizada[i].LimitecontaC) <= (conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM)){
+                               conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                           }break;
+                        case 3:
+                           if (((-conta_atualizada[i].LimitecontaC) + (0.5 * corrente[i].saldoContaC)) <= (conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM)){
+                               conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                           }break;
+                        case 4:
+                           if (((-conta_atualizada[i].LimitecontaC) + corrente[i].saldoContaC) <= (conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM)){
+                               conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM; 
+                               
+                    }break;
+            }    
+            }else if ((conta_atualizada[i].codContaC == movimento[x].codContaM) && (movimento[x].statusM == 2) && (conta_atualizada[i].saldoContaC > movimento[x].ValorMovimentoM)){
+                  if(conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM >= 0){
+                      conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                  }else{
+                     caso = conta_atualizada[i].tipoContaC;
+                    switch (caso){
+                        case 1:
+                            conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                            break;
+                        case 2:
+                           if ((-conta_atualizada[i].LimitecontaC) <= (conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM)){
+                               conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                           }break;
+                        case 3:
+                           if (((-conta_atualizada[i].LimitecontaC) + (0.5 * corrente[i].saldoContaC)) <= (conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM)){
+                               conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM;
+                           }break;
+                        case 4:
+                           if (((-conta_atualizada[i].LimitecontaC) + corrente[i].saldoContaC) <= (conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM)){
+                               conta_atualizada[i].saldoContaC = conta_atualizada[i].saldoContaC - movimento[x].ValorMovimentoM; 
+                               
+                    }break;
+                  }
             }
             
         }
+    }
+    }
     }
     
     public static void herdar (InfoContaC[] corrente, InfoContaC[] conta_atualizada){
@@ -94,6 +168,29 @@ public class ContaCorrente {
             conta_atualizada[i].tipoContaC = corrente[i].tipoContaC;
         }
         
+    }
+    
+    public static void gravar(InfoContaC[] corrente, MovimentoContas[] movimento, InfoContaC[] conta_atualizada) throws IOException{
+        
+        int i;
+        BufferedWriter conta_corrente = new BufferedWriter(new FileWriter("ContaCorrente.txt"));
+            for(i=0; i < corrente.length; i++){
+                  conta_corrente.write(corrente[i].toString());
+            }
+            conta_corrente.close();
+            
+         BufferedWriter movimento_arq = new BufferedWriter(new FileWriter("Movimento.txt"));
+            for(i=0; i < movimento.length; i++){
+                  movimento_arq.write(movimento[i].toString());
+            }
+            movimento_arq.close();
+            
+         BufferedWriter atualizada = new BufferedWriter(new FileWriter("ContaAtualizada.txt"));
+            for(i=0; i < conta_atualizada.length; i++){
+                  atualizada.write(conta_atualizada[i].toString());
+            }
+            atualizada.close();
+               
     }
     
 }
